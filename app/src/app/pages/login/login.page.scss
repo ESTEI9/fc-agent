@@ -1,0 +1,10 @@
+ion-item {
+    --highlight-background: transparent;
+    ion-input {
+        background: #fafafa;
+        border-radius:5px;
+        border:1px solid #ddd;
+        --padding-start:10px;
+        align-items: flex-start;
+    }
+}

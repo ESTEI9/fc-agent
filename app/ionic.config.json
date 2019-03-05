@@ -1,0 +1,7 @@
+{
+  "name": "Agent",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

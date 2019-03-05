@@ -1,0 +1,18 @@
+<ion-content padding>
+    <div class="logoHead">
+        <img src="assets/img/cclogo.png" alt="Logo">
+    </div>
+    <form (submit)="doLogin()" margin-top>
+        <ion-list lines="none">
+            <ion-item>
+                <ion-input type="email" [(ngModel)]="email" name="email" placeholder="Email" clearInput></ion-input>
+            </ion-item>
+            <ion-item margin-bottom>
+                <ion-input type="password" [(ngModel)]="password" name="password" placeholder="Password" clearInput></ion-input>
+            </ion-item>
+            <ion-item style="width:100%">
+                <ion-button color="primary" size="default" expand="block" style="width:100%" type="submit">Login</ion-button>
+            </ion-item>
+        </ion-list>
+    </form>
+</ion-content>

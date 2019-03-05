@@ -1,0 +1,174 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Basic Signup</ion-title>
+    <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <form #form>
+        <h1>Account Data</h1>
+        <ion-list lines="none" no-padding>
+            <ion-item>
+                <ion-label position="stacked">Account Owner<span class="required">*</span></ion-label>
+                <ion-input type="text" [(ngModel)]="info.accName" name="accName" required (click)="updateSigDimensions()"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Login Email<span class="required">*</span></ion-label>
+                <ion-input type="email" [(ngModel)]="info.accEmail" name="accEmail" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Login Password<span class="required">*</span></ion-label>
+                <ion-input type="password" [(ngModel)]="info.password" name="password" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Confirm Password<span class="required">*</span></ion-label>
+                <ion-input type="password" [(ngModel)]="confirmPass" name="confirmPass" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Social Security (xxx-xx-xxxx)</ion-label>
+                <ion-input type="number" [(ngModel)]="info.ssn" name="ssn"></ion-input>
+            </ion-item>
+            <h4>Bank Information</h4>
+            <ion-item>
+                <ion-label position="stacked">Bank Name<span class="required">*</span></ion-label>
+                <ion-input type="text" [(ngModel)]="info.bankAccName" name="bankAccName" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Routing Number<span class="required">*</span></ion-label>
+                <ion-input type="number" [(ngModel)]="info.routNum" name="routNum" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Account Number<span class="required">*</span></ion-label>
+                <ion-input type="number" [(ngModel)]="info.accNum" name="accNum" required></ion-input>
+            </ion-item>
+        </ion-list>
+        <h1>Company Information</h1>
+        <ion-list lines="none" no-padding>
+            <ion-item>
+                <ion-label position="stacked">Company Name<span class="required">*</span></ion-label>
+                <ion-input type="text" [(ngModel)]="info.compName" name="compName" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Company DBA<span class="required">*</span></ion-label>
+                <ion-input type="text" [(ngModel)]="info.compDBA" name="compDBA" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Industry<span class="required">*</span></ion-label>
+                <ion-select  [(ngModel)]="info.industry" name="industry" required>
+                    <ion-select-option *ngFor="let item of industries"  value="{{item}}"> {{item}} </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">EIN (xx-xxxxxxx)</ion-label>
+                <ion-input type="text" [(ngModel)]="info.EIN" name="EIN"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">IRS Tax Filing Name<span class="required">*</span></ion-label>
+                <ion-input type="text" [(ngModel)]="info.IRSName" name="IRSName" required></ion-input>
+            </ion-item>
+            <h4>Company Address</h4>
+            <ion-item>
+                <ion-label position="stacked">Address<span class="required">*</span></ion-label>
+                <ion-input type="text" [(ngModel)]="info.compAddress" name="compAddress" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">City/State<span class="required">*</span></ion-label>
+                <ion-searchbar type="text" [(ngModel)]="compString" name="compString" id="compSearch" (input)="updateCitiesList('company')" (ionClear)="compLocations = []" placeholder="Search Cities" clearInput></ion-searchbar>
+                <div *ngIf="compLocations && compLocations.length > 0 && compString" class="datalist">
+                    <ion-list>
+                        <ion-item *ngFor="let loc of compLocations" (click)="info.compCity = loc; compString = loc.city+', '+loc.abbr; compLocations = []">{{loc.city}}, {{loc.abbr}}</ion-item>
+                    </ion-list>
+                </div>
+                <ion-input type="hidden" name="compCity" [(ngModel)]="info.compCity" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Zipcode<span class="required">*</span></ion-label>
+                <ion-input type="number" [(ngModel)]="info.compZip" name="compZip" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Phone<span class="required">*</span></ion-label>
+                <ion-input type="number" [(ngModel)]="info.compPhone" name="compPhone" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Is the physical address is same as the company address?<span class="required">*</span></ion-label>
+                <ion-checkbox middle [(ngModel)]="diffAdd" name="diffAdd" (click)="changeAdd()" required></ion-checkbox>
+            </ion-item>
+            <h4 [hidden]="diffAdd">Physical Address</h4>
+            <ion-item [hidden]="diffAdd">
+                <ion-list lines="none" no-padding style="width:100%">
+                    <ion-item>
+                        <ion-label position="stacked">Address<span class="required">*</span></ion-label>
+                        <ion-input type="text" [(ngModel)]="info.phyAddress" name="phyAddress" required></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">City/State<span class="required">*</span></ion-label>
+                        <ion-searchbar type="text" [(ngModel)]="phyString" name="phyString" id="phySearch" (input)="updateCitiesList('physical')" (ionClear)="phyLocations = []" placeholder="Search Cities" clearInput></ion-searchbar>
+                        <div *ngIf="phyLocations && phyLocations.length > 0 && phyString" class="datalist">
+                            <ion-list>
+                                <ion-item *ngFor="let loc of phyLocations" (click)="info.phyCity = loc; phyString = loc.city+', '+loc.abbr; phyLocations = []">{{loc.city}}, {{loc.abbr}}</ion-item>
+                            </ion-list>
+                        </div>
+                        <ion-input type="hidden" name="compCity" [(ngModel)]="info.phyCity" required></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">Zipcode<span class="required">*</span></ion-label>
+                        <ion-input type="number" [(ngModel)]="info.phyZip" name="phyZip" required></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">Contact Phone<span class="required">*</span></ion-label>
+                        <ion-input type="number" [(ngModel)]="info.dbaPhone" name="dbaPhone" required></ion-input>
+                    </ion-item>
+                </ion-list>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Contact Email<span class="required">*</span></ion-label>
+                <ion-input type="text" [(ngModel)]="info.compEmail" name="compEmail" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Fax #</ion-label>
+                <ion-input type="number" [(ngModel)]="info.compFax" name="compFax"></ion-input>
+            </ion-item>
+        </ion-list>
+        <h1>Extras</h1>
+        <ion-list lines="none">
+            <ion-item>
+                <ion-label position="stacked">Company Website</ion-label>
+                <ion-input type="text" [(ngModel)]="info.website" name="website"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-button *ngIf="!imageLoading && !imageURI" margin-top color="primary" (click)="selectFile()" size="default">Select Logo</ion-button>
+                <ion-thumbnail>
+                    <ion-spinner name="crescent" *ngIf="imageLoading"></ion-spinner>
+                    <ion-img *ngIf="imageURI" [src]="imageURI" alt="Company Logo"></ion-img>
+                </ion-thumbnail>
+                <ion-button *ngIf="imageURI || imageLoading" (click)="imageURI = null;" size="default" color="primary">Clear Image</ion-button>
+            </ion-item>
+        </ion-list>
+    </form>
+
+    <h1>Signature & Agree to Terms</h1>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <signature-pad [options]="signaturePadOptions"  id="signaturePad"></signature-pad>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="4">
+                <ion-button size="default" color="secondary" expand="block" (click)="signaturePad.clear()">Clear</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="10">
+                <ion-label>I Agree to the <a target="_blank" href="https://freedomchoiceglobal.com/legal">Terms and Conditions</a><span class="required">*</span></ion-label>
+            </ion-col>
+            <ion-col size="2">
+                <ion-checkbox [(ngModel)]="info.agreeTerms" name="agreeTerms" required></ion-checkbox>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-button expand="block" [disabled]="info.agreeTerms == false || signaturePad.isEmpty()" color="primary" (click)="register()">Submit</ion-button>
+</ion-content>

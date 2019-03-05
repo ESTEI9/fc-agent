@@ -1,0 +1,68 @@
+.item-md{
+    padding-left : 0px !important;
+}
+
+ion-item {
+
+    --highlight-background:transparent;
+
+    ion-input, ion-select {
+        border:1px solid #ddd;
+        background:#fafafa;
+        border-radius:5px;
+        transition: all 0.3s;
+        --padding-start: 8px;
+    }
+
+    ion-input[type="hidden"]{
+        border:none;
+    }
+
+    ion-input.has-focus, ion-select.has-focus {
+        background: var(--ion-color-primary-tint);
+        color: #fff;
+    }
+}
+
+h1, h4 {
+    text-align: left;
+}
+
+.datalist {
+    max-height:450px;
+    overflow-y:scroll;
+    padding-top:0;
+    width:100%;
+
+    ion-item {
+        list-style: none;
+        background:transparent;
+    }
+}
+
+#compSearch, #phySearch {
+    -webkit-padding-start: 0;
+    padding-inline-start: 0;
+    -webkit-padding-end: 0;
+    padding-inline-end: 0;
+    height:auto;
+    padding-top:0;
+    padding-bottom:0;
+    contain:unset;
+    --background: #fafafa;
+    border:1px solid #ddd;
+    border-radius:5px;
+
+    .searchbar-input-container {
+        .searchbar-input {
+            box-shadow:none;
+            border-radius:5px;
+        }
+    }
+}
+
+ion-thumbnail{
+    display:flex;
+    align-content: center;
+    align-items:center;
+}
